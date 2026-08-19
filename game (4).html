@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>深宫赋朱墙烬</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif;}
+body{background:#1a1a22;color:#eee;}
+#wrap{max-width:900px;margin:12px auto;border:1px solid #444;border-radius:8px;overflow:hidden;}
+#toolBar{display:flex;gap:6px;padding:10px 12px;background:#272732;flex-wrap:wrap;}
+#toolBar button{padding:4px 9px;font-size:12px;border:none;border-radius:4px;cursor:pointer;background:#444c5c;color:#fff;}
+#toolBar button:hover{background:#586074;}
+#dialogBox{min-height:320px;max-height:520px;overflow-y:auto;padding:20px 24px;cursor:pointer;}
+#textContent{font-size:17px;line-height:1.8;white-space:pre-line;}
+#choiceBox{margin-top:18px;display:flex;flex-wrap:wrap;gap:9px;}
+.choiceBtn{padding:9px 16px;font-size:15px;border:none;border-radius:5px;cursor:pointer;background:#3b4f6b;color:#f0f0f0;}
+.choiceBtn:hover{background:#4d6484;}
+.modal{position:fixed;inset:0;z-index:200;padding:40px;overflow:auto;background:rgba(0,0,0,0.88);display:none;}
+.modal.active{display:block;}
+.modal h3{margin-bottom:16px;}
+.save-item{padding:12px;border-radius:6px;margin-bottom:8px;cursor:pointer;border:1px solid #555;}
+.save-item:hover{background:rgba(120,120,120,0.25);}
+.close-btn{position:absolute;top:16px;right:20px;font-size:24px;cursor:pointer;}
+body.light-theme{background:#fff;color:#111;}
+body.light-theme #wrap{border:1px solid #ccc;}
+body.light-theme #toolBar{background:#efefef;}
+body.light-theme .modal{background:rgba(255,255,255,0.94);color:#111;}
+body.light-theme .save-item{border:1px solid #ccc;}
+</style>
+</head>
+<body>
+<div id="wrap">
+    <div id="toolBar">
+        <button id="btnSave">存档</button>
+        <button id="btnLoad">读档</button>
+        <button id="btnBack">回退上一节点</button>
+        <button id="btnEnding">结局图鉴</button>
+        <button id="btnTheme">切换明暗主题</button>
+        <button id="btnSpeed">文字速度:1x</button>
+    </div>
+    <div id="dialogBox">
+        <div id="textContent"></div>
+        <div id="choiceBox"></div>
+    </div>
+</div>
+
+<div class="modal" id="saveModal"><span class="close-btn">×</span><h3>存档位</h3><div id="saveList"></div></div>
+<div class="modal" id="loadModal"><span class="close-btn">×</span><h3>读取存档</h3><div id="loadList"></div></div>
+<div class="modal" id="endingModal"><span class="close-btn">×</span><h3>结局图鉴</h3><div id="endingList"></div></div>
+
+<script>
+const storyData = {
+    start:{
+        text:"【大启三年，暮春。紫禁城奉天殿选秀大开，八方贵女齐聚。||衣香鬓影层层叠叠，掩不住人心惶惶。谁都心知肚明，这万丈朱墙，是泼天荣华，亦是无声囚笼。||你是沈清婉，当朝翰林学士嫡女，自幼清雅知礼，性子沉静。||本无心深宫争艳，奈何君命难违，家族荣辱全系于你一身，只能放下闺中安稳，踏入这红墙之内。||同批入选的，还有与你自幼相伴的闺中密友——孟瑶。||孟瑶家世单薄，性情敏感细腻，站在出身清贵、举止从容的你身侧，心底悄悄藏了几分落差与自卑。||龙椅之上，少年帝王萧珩冷眼俯瞰群芳，目光淡淡扫过众人，最终在你身上短暂停留。||一旁章太后静坐旁观，不动声色间，记下了你沉静安分的心性。||一纸圣旨落定尘埃。||你被封正七品才人，居僻静清幽的碎玉轩；孟瑶封温贵人，迁居雅致听竹轩。||出宫回行宫的悠长宫道上，晚风微凉，孟瑶轻轻拉住你的衣袖，眼底带着不安与局促。||“清婉，深宫人心难测，往后宫里只剩你我相互照拂，千万切莫生分。”||她语气温柔，可眼底深处，藏着一丝不易察觉的不甘。||入宫半月，碎玉轩冷清僻静，少有人往来。||贴身侍女云舒时常劝你多走动、攀附人脉，免得身居低位被人轻看践踏。||孟瑶日日闲暇都会来碎玉轩与你闲谈叙旧，只是言语之间，偶尔会溢出几分酸涩与艳羡。||暮春午后，满园海棠盛放，落英缤纷。||孟瑶特意邀约你，同往御花园散心透气。||满园春色旖旎，本该是闲适时光，却骤然风起波生。||盛宠正浓的丽婕妤苏凌月，正立于花丛之中，厉声斥责几位低位嫔妃，气焰张扬。||苏凌月外戚势大，盛宠缠身，宫中宫人嫔妃无人敢劝，纷纷避让退让。||混乱嘈杂之间，花丛暗处忽然伸出一只手，猛地一推。||苏凌月重心不稳，重重摔落在青石地面，满头珠钗散落一地，妆容尽乱，狼狈不堪。||当众受辱，她怒火攻心，骤然抬眼，目光凌厉死死锁定就近的你与孟瑶。||满园宫人尽数退避，近处唯有你们二人。||“沈才人！是你推跌本宫？！”||一语落地，满园死寂，融融春意瞬间褪去，彻骨寒意漫遍周身。||孟瑶脸色瞬间惨白，浑身僵硬，咬紧双唇，不敢出声辩驳。||一边是自幼情谊的闺蜜，一边是权势滔天、盛宠无双的丽婕妤，她进退两难，手足无措。",
+        choices: [
+            { text: "冷静自持，当众自辩洗冤", next: "branch_bianbai" },
+            { text: "忍辱退让，低头致歉息事", next: "branch_diutou" },
+            { text: "寄望旧情，示意孟瑶佐证", next: "branch_mengyao" }
+        ]
+    },
+    branch_bianbai:{
+        text:"你定了定神，决定当众为自己辩白洗冤。||当着满园宫人的面，你要斟酌行事，选择辩白的方式。",
+        choices:[
+            { text:"①从容坦荡，当众细数距离与证据", next:"p3_bianbai_1" },
+            { text:"②谦卑有礼，只对管事嬷嬷陈情", next:"p3_bianbai_2" }
+        ]
+    },
+    branch_diutou:{
+        text:"你不愿正面硬碰盛宠的丽婕妤，打算低头致歉平息这场风波。||但姿态分寸，仍由你来把握。",
+        choices:[
+            { text:"①彻底退让，全盘揽下场面之过", next:"p3_diutou_1" },
+            { text:"②分寸退让，不认罪，只致歉缓和氛围", next:"p3_diutou_2" }
+        ]
+    },
+    branch_mengyao:{
+        text:"你将希望寄托于年少情谊，打算示意身旁孟瑶出面为你作证。||你可以恳切逼迫，亦可隐晦暗示。",
+        choices:[
+            { text:"①直视孟瑶，恳切期盼她仗义执言", next:"p3_mengyao_1" },
+            { text:"②隐晦眼神暗示，不愿逼迫，留有余地", next:"p3_mengyao_2" }
+        ]
+    },
+    p3_bianbai_1:{text:"你神色镇定自若，毫无慌乱，上前微微欠身，仪态端庄从容。||你当众清晰细数方才站位，讲明你与苏凌月摔倒之处尚有一段距离，根本无从出手。||言语条理分明，坦荡磊落，同时请在场管事嬷嬷传唤周遭宫人作证。||数位目击宫人纷纷出言佐证，证词尽数偏向于你。||苏凌月颜面尽失，却拿不出半点实证指认你，当众被噎得哑口无言。||此番自辩，你成功洗清所有嫌疑，却彻底折了苏凌月的颜面，被她深深记恨。||一旁的孟瑶静静看着从容破局、沉稳有度的你，心底悄然生出几分忌惮与疏离。||风波暂时平息，可外戚势力的敌意，已然牢牢落在了你身上。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
+    p3_bianbai_2:{text:"你并未高声争辩、张扬辩解，深知后宫出头最是大忌。||你微微侧身，凑近管事嬷嬷身侧，低声沉稳陈述方才完整经过，语气谦卑有礼，分寸得当。||你恳请嬷嬷私下查证目击宫人，低调求证，不张扬、不逞强。||管事嬷嬷见你安分沉稳、处事得体，心生好感，私下核实证词，将这场风波悄然压下。||事情看似无痕落幕，可苏凌月心中满腔怨气无处发泄，尽数记在你的头上。||孟瑶立于一旁，看着沉稳内敛、心思缜密的你，心中五味杂陈，愈发觉得你早已不是昔日那个单纯的闺中挚友。||表面风平浪静，暗处暗流汹涌，祸根已然悄悄埋下。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
+    p3_diutou_1:{text:"你深知苏凌月盛宠滔天、权势傍身，硬碰硬只会自取灭亡。||为求暂且息事宁人，你压下满心冤屈，屈膝深深福身，姿态恭谨。||“妾身不慎，惊扰婕妤娘娘雅兴，致使场面混乱，还望娘娘息怒。”||你将场面混乱的所有过错，尽数揽在自己身上。||苏凌月怒火稍歇，居高临下训斥你几句，便带着宫人愤然离去。||周遭宫人尽数看在眼里，无人深究真相，只当是你低位卑贱、冲撞上位妃嫔。||一时的退让换来了片刻安稳，却让软弱可欺的标签，牢牢贴在了碎玉轩身上。||孟瑶看着忍辱负重、受委屈不言的你，满心愧疚，却始终不敢为你多说一言。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
+    p3_diutou_2:{text:"你躬身行礼，语气温和谦卑，态度十足恭敬，却始终守住自身底线，绝不认罪。||“园中游人杂乱，场面失序，惊扰娘娘凤体，是妾身疏忽，还望娘娘莫要动气伤身。”||你只替混乱场面致歉，缓和紧绷氛围，却从未承认是自己推人。||分寸拿捏得当，既给足了苏凌月台阶，又保全了自身清白。||苏凌月怒火难平，满心不甘，却抓不到半点治罪你的把柄，只能恨恨离去。||有细心宫人看在眼里，知晓你是受了无妄委屈；但也有人觉得你圆滑怯懦、不敢辩白。||孟瑶望着处事隐忍、进退有度的你，神色复杂，心绪难平。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
+    p3_mengyao_1:{text:"事态危急，你下意识侧首，直视身旁的孟瑶，眼神恳切温柔。||你寄望于年少情谊，期盼她能念着昔日情分，站出来为你仗义执言、洗刷冤屈。||孟瑶身子骤然发抖，唇瓣反复开合，眼底满是挣扎与惶恐。||她心里清楚真相，也知晓你无辜，可对面是盛宠滔天、外戚强势的丽婕妤。||一旦出言作证顶撞，以她低微的位份、单薄的家世，定然会引火烧身、万劫不复。||恐惧终究压过了情谊。||她缓缓垂眸，避开你的目光，双唇紧抿，自始至终一言不发。||没有证人，你的所有隐忍与清白，都显得苍白无力。||心底一阵寒凉彻骨，年少相伴的真挚情谊，在深宫权势面前，悄然裂开一道无法弥补的裂痕。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
+    p3_mengyao_2:{text:"你不愿当众逼迫为难孟瑶，未曾开口求助，只微微偏头，投去一抹隐晦的眼神。||目光温柔恳切，带着浅浅期盼，留足了余地，静待她自愿出手相助。||你始终念着昔日闺中情分，不愿在绝境之中，逼迫挚友两难。||孟瑶精准读懂了你眼底的求助，内心剧烈挣扎、天人交战。||一边是自幼相伴的至亲挚友，一边是足以碾压她的深宫权势。||权衡利弊之下，她终究还是选择了自保。||她微微偏头，佯装未曾看懂你的暗示，沉默伫立，一言不发。||期盼缓缓落空，心口微凉。||你们未曾撕破脸面、未曾当众反目，可那层亲密无间的情谊，已然生出一道无形隔阂，再也回不到从前。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
+    pause_end:{text:"本卷第一章剧情已全部完结。||你可在此存档，等待后续第二章剧情更新，继续开启深宫沉浮之路。",isEnd:true,endingId:"pause_demo"}
+};
+const endingMeta = {pause_demo:"第一卷·海棠冤案 游玩完毕"};
+
+let currentNodeId = "start";
+let historyStack = [];
+let typingTimer = null;
+let unlockEndings = JSON.parse(localStorage.getItem("endings")||"[]");
+let speedCfg = JSON.parse(localStorage.getItem("textSpeed")||'{"idx":1,"arr":[85,52,32,20]}');
+const speedTextArr = ["0.75x","1x","1.5x","2x"];
+
+const textDom = document.getElementById("textContent");
+const choiceDom = document.getElementById("choiceBox");
+const dialogBox = document.getElementById("dialogBox");
+const btnSpeed = document.getElementById("btnSpeed");
+
+let state = "idle"; // idle / typing / waitClick
+let currentPageText = "";
+let pageList = [];
+let pagePtr = 0;
+
+function updateSpeedBtn(){
+    btnSpeed.innerText = "文字速度:"+speedTextArr[speedCfg.idx];
+}
+updateSpeedBtn();
+
+dialogBox.onclick = function(){
+    if(state === "typing"){
+        clearTimeout(typingTimer);
+        typingTimer = null;
+        textDom.innerText = currentPageText;
+        dialogBox.scrollTop = dialogBox.scrollHeight;
+        state = "waitClick";
+        return;
+    }
+    if(state === "waitClick"){
+        nextPage();
+    }
+}
+
+function nextPage(){
+    pagePtr++;
+    if(pagePtr >= pageList.length){
+        state = "idle";
+        renderChoices(storyData[currentNodeId]);
+        return;
+    }
+    playPage(pageList[pagePtr]);
+}
+
+function playPage(str){
+    state = "typing";
+    currentPageText = str;
+    textDom.innerText = "";
+    let i=0;
+    function tick(){
+        if(i >= str.length){
+            state = "waitClick";
+            dialogBox.scrollTop = dialogBox.scrollHeight;
+            return;
+        }
+        textDom.innerText += str[i++];
+        dialogBox.scrollTop = dialogBox.scrollHeight;
+        typingTimer = setTimeout(tick, speedCfg.arr[speedCfg.idx]);
+    }
+    tick();
+}
+
+function renderChoices(node){
+    choiceDom.innerHTML = "";
+    if(node.isEnd){
+        if(!unlockEndings.includes(node.endingId)){
+            unlockEndings.push(node.endingId);
+            localStorage.setItem("endings",JSON.stringify(unlockEndings));
+        }
+        const btn = document.createElement("button");
+        btn.className="choiceBtn";
+        btn.innerText="回到开篇";
+        btn.onclick=(e)=>{e.stopPropagation();historyStack=[];goNode("start");};
+        choiceDom.appendChild(btn);
+        return;
+    }
+    for(let ch of node.choices){
+        const btn = document.createElement("button");
+        btn.className="choiceBtn";
+        btn.innerText = ch.text;
+        btn.onclick=(e)=>{e.stopPropagation();goNode(ch.next);};
+        choiceDom.appendChild(btn);
+    }
+}
+
+function goNode(nodeId){
+    clearTimeout(typingTimer);
+    state = "idle";
+    const node = storyData[nodeId];
+    if(node.choices) historyStack.push(nodeId);
+    currentNodeId = nodeId;
+    choiceDom.innerHTML = "";
+    pageList = node.text.split("||").map(s=>s.trim()).filter(s=>s);
+    pagePtr = 0;
+    if(pageList.length>0){
+        playPage(pageList[0]);
+    }else{
+        renderChoices(node);
+    }
+}
+
+document.getElementById("btnBack").onclick=(e)=>{
+    e.stopPropagation();
+    if(historyStack.length<=1){alert("无法回退");return;}
+    historyStack.pop();
+    goNode(historyStack[historyStack.length-1]);
+}
+btnSpeed.onclick=(e)=>{e.stopPropagation();speedCfg.idx=(speedCfg.idx+1)%speedCfg.arr.length;updateSpeedBtn();}
+document.getElementById("btnTheme").onclick=(e)=>{e.stopPropagation();document.body.classList.toggle("light-theme");}
+document.querySelectorAll(".close-btn").forEach(b=>{b.onclick=(e)=>{
+    e.stopPropagation();
+    document.getElementById("saveModal").classList.remove("active");
+    document.getElementById("loadModal").classList.remove("active");
+    document.getElementById("endingModal").classList.remove("active");
+}});
+
+document.getElementById("btnSave").onclick=(e)=>{
+    e.stopPropagation();
+    document.getElementById("saveModal").classList.add("active");
+    const list = document.getElementById("saveList");list.innerHTML="";
+    for(let i=1;i<=3;i++){
+        const key = "save_"+i;
+        const div = document.createElement("div");
+        div.className="save-item";
+        div.innerText = localStorage.getItem(key)?`存档${i}：已保存`:`存档${i}：空`;
+        div.onclick=(ev)=>{ev.stopPropagation();localStorage.setItem(key,JSON.stringify({node:currentNodeId,history:historyStack}));alert(`已存入存档${i}`);document.getElementById("saveModal").classList.remove("active");};
+        list.appendChild(div);
+    }
+};
+document.getElementById("btnLoad").onclick=(e)=>{
+    e.stopPropagation();
+    document.getElementById("loadModal").classList.add("active");
+    const list = document.getElementById("loadList");list.innerHTML="";
+    for(let i=1;i<=3;i++){
+        const key="save_"+i;
+        const raw = localStorage.getItem(key);
+        const div = document.createElement("div");
+        div.className="save-item";
+        if(raw){
+            div.innerText=`存档${i}`;
+            div.onclick=(ev)=>{ev.stopPropagation();const d=JSON.parse(raw);historyStack=d.history??[];goNode(d.node);document.getElementById("loadModal").classList.remove("active");}
+        }else div.innerText=`存档${i}：空存档`;
+        list.appendChild(div);
+    }
+};
+document.getElementById("btnEnding").onclick=(e)=>{
+    e.stopPropagation();
+    document.getElementById("endingModal").classList.add("active");
+    const list = document.getElementById("endingList");list.innerHTML="";
+    for(const [eid,name] of Object.entries(endingMeta)){
+        const div = document.createElement("div");div.style.padding="6px 0";
+        div.innerText = unlockEndings.includes(eid)?"✅ "+name:"❓ ???（未解锁）";
+        list.appendChild(div);
+    }
+};
+
+goNode("start");
+</script>
+</body>
+</html>
