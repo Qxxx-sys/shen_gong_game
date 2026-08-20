@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -30,64 +29,443 @@ body.light-theme .save-item{border:1px solid #ccc;}
 </head>
 <body>
 <div id="wrap">
-    <div id="toolBar">
-        <button id="btnSave">存档</button>
-        <button id="btnLoad">读档</button>
-        <button id="btnBack">回退上一节点</button>
-        <button id="btnEnding">结局图鉴</button>
-        <button id="btnTheme">切换明暗主题</button>
-        <button id="btnSpeed">文字速度:1x</button>
-    </div>
-    <div id="dialogBox">
-        <div id="textContent"></div>
-        <div id="choiceBox"></div>
-    </div>
+<div id="toolBar">
+<button id="btnSave">存档</button>
+<button id="btnLoad">读档</button>
+<button id="btnBack">回退上一节点</button>
+<button id="btnEnding">结局图鉴</button>
+<button id="btnTheme">切换明暗主题</button>
+<button id="btnSpeed">文字速度:1x</button>
 </div>
-
+<div id="dialogBox">
+<div id="textContent"></div>
+<div id="choiceBox"></div>
+</div>
+</div>
 <div class="modal" id="saveModal"><span class="close-btn">×</span><h3>存档位</h3><div id="saveList"></div></div>
 <div class="modal" id="loadModal"><span class="close-btn">×</span><h3>读取存档</h3><div id="loadList"></div></div>
 <div class="modal" id="endingModal"><span class="close-btn">×</span><h3>结局图鉴</h3><div id="endingList"></div></div>
-
 <script>
 const storyData = {
-    start:{
-        text:"【大启三年，暮春。紫禁城奉天殿选秀大开，八方贵女齐聚。||衣香鬓影层层叠叠，掩不住人心惶惶。谁都心知肚明，这万丈朱墙，是泼天荣华，亦是无声囚笼。||你是沈清婉，当朝翰林学士嫡女，自幼清雅知礼，性子沉静。||本无心深宫争艳，奈何君命难违，家族荣辱全系于你一身，只能放下闺中安稳，踏入这红墙之内。||同批入选的，还有与你自幼相伴的闺中密友——孟瑶。||孟瑶家世单薄，性情敏感细腻，站在出身清贵、举止从容的你身侧，心底悄悄藏了几分落差与自卑。||龙椅之上，少年帝王萧珩冷眼俯瞰群芳，目光淡淡扫过众人，最终在你身上短暂停留。||一旁章太后静坐旁观，不动声色间，记下了你沉静安分的心性。||一纸圣旨落定尘埃。||你被封正七品才人，居僻静清幽的碎玉轩；孟瑶封温贵人，迁居雅致听竹轩。||出宫回行宫的悠长宫道上，晚风微凉，孟瑶轻轻拉住你的衣袖，眼底带着不安与局促。||“清婉，深宫人心难测，往后宫里只剩你我相互照拂，千万切莫生分。”||她语气温柔，可眼底深处，藏着一丝不易察觉的不甘。||入宫半月，碎玉轩冷清僻静，少有人往来。||贴身侍女云舒时常劝你多走动、攀附人脉，免得身居低位被人轻看践踏。||孟瑶日日闲暇都会来碎玉轩与你闲谈叙旧，只是言语之间，偶尔会溢出几分酸涩与艳羡。||暮春午后，满园海棠盛放，落英缤纷。||孟瑶特意邀约你，同往御花园散心透气。||满园春色旖旎，本该是闲适时光，却骤然风起波生。||盛宠正浓的丽婕妤苏凌月，正立于花丛之中，厉声斥责几位低位嫔妃，气焰张扬。||苏凌月外戚势大，盛宠缠身，宫中宫人嫔妃无人敢劝，纷纷避让退让。||混乱嘈杂之间，花丛暗处忽然伸出一只手，猛地一推。||苏凌月重心不稳，重重摔落在青石地面，满头珠钗散落一地，妆容尽乱，狼狈不堪。||当众受辱，她怒火攻心，骤然抬眼，目光凌厉死死锁定就近的你与孟瑶。||满园宫人尽数退避，近处唯有你们二人。||“沈才人！是你推跌本宫？！”||一语落地，满园死寂，融融春意瞬间褪去，彻骨寒意漫遍周身。||孟瑶脸色瞬间惨白，浑身僵硬，咬紧双唇，不敢出声辩驳。||一边是自幼情谊的闺蜜，一边是权势滔天、盛宠无双的丽婕妤，她进退两难，手足无措。",
-        choices: [
-            { text: "冷静自持，当众自辩洗冤", next: "branch_bianbai" },
-            { text: "忍辱退让，低头致歉息事", next: "branch_diutou" },
-            { text: "寄望旧情，示意孟瑶佐证", next: "branch_mengyao" }
-        ]
-    },
-    branch_bianbai:{
-        text:"你定了定神，决定当众为自己辩白洗冤。||当着满园宫人的面，你要斟酌行事，选择辩白的方式。",
-        choices:[
-            { text:"①从容坦荡，当众细数距离与证据", next:"p3_bianbai_1" },
-            { text:"②谦卑有礼，只对管事嬷嬷陈情", next:"p3_bianbai_2" }
-        ]
-    },
-    branch_diutou:{
-        text:"你不愿正面硬碰盛宠的丽婕妤，打算低头致歉平息这场风波。||但姿态分寸，仍由你来把握。",
-        choices:[
-            { text:"①彻底退让，全盘揽下场面之过", next:"p3_diutou_1" },
-            { text:"②分寸退让，不认罪，只致歉缓和氛围", next:"p3_diutou_2" }
-        ]
-    },
-    branch_mengyao:{
-        text:"你将希望寄托于年少情谊，打算示意身旁孟瑶出面为你作证。||你可以恳切逼迫，亦可隐晦暗示。",
-        choices:[
-            { text:"①直视孟瑶，恳切期盼她仗义执言", next:"p3_mengyao_1" },
-            { text:"②隐晦眼神暗示，不愿逼迫，留有余地", next:"p3_mengyao_2" }
-        ]
-    },
-    p3_bianbai_1:{text:"你神色镇定自若，毫无慌乱，上前微微欠身，仪态端庄从容。||你当众清晰细数方才站位，讲明你与苏凌月摔倒之处尚有一段距离，根本无从出手。||言语条理分明，坦荡磊落，同时请在场管事嬷嬷传唤周遭宫人作证。||数位目击宫人纷纷出言佐证，证词尽数偏向于你。||苏凌月颜面尽失，却拿不出半点实证指认你，当众被噎得哑口无言。||此番自辩，你成功洗清所有嫌疑，却彻底折了苏凌月的颜面，被她深深记恨。||一旁的孟瑶静静看着从容破局、沉稳有度的你，心底悄然生出几分忌惮与疏离。||风波暂时平息，可外戚势力的敌意，已然牢牢落在了你身上。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
-    p3_bianbai_2:{text:"你并未高声争辩、张扬辩解，深知后宫出头最是大忌。||你微微侧身，凑近管事嬷嬷身侧，低声沉稳陈述方才完整经过，语气谦卑有礼，分寸得当。||你恳请嬷嬷私下查证目击宫人，低调求证，不张扬、不逞强。||管事嬷嬷见你安分沉稳、处事得体，心生好感，私下核实证词，将这场风波悄然压下。||事情看似无痕落幕，可苏凌月心中满腔怨气无处发泄，尽数记在你的头上。||孟瑶立于一旁，看着沉稳内敛、心思缜密的你，心中五味杂陈，愈发觉得你早已不是昔日那个单纯的闺中挚友。||表面风平浪静，暗处暗流汹涌，祸根已然悄悄埋下。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
-    p3_diutou_1:{text:"你深知苏凌月盛宠滔天、权势傍身，硬碰硬只会自取灭亡。||为求暂且息事宁人，你压下满心冤屈，屈膝深深福身，姿态恭谨。||“妾身不慎，惊扰婕妤娘娘雅兴，致使场面混乱，还望娘娘息怒。”||你将场面混乱的所有过错，尽数揽在自己身上。||苏凌月怒火稍歇，居高临下训斥你几句，便带着宫人愤然离去。||周遭宫人尽数看在眼里，无人深究真相，只当是你低位卑贱、冲撞上位妃嫔。||一时的退让换来了片刻安稳，却让软弱可欺的标签，牢牢贴在了碎玉轩身上。||孟瑶看着忍辱负重、受委屈不言的你，满心愧疚，却始终不敢为你多说一言。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
-    p3_diutou_2:{text:"你躬身行礼，语气温和谦卑，态度十足恭敬，却始终守住自身底线，绝不认罪。||“园中游人杂乱，场面失序，惊扰娘娘凤体，是妾身疏忽，还望娘娘莫要动气伤身。”||你只替混乱场面致歉，缓和紧绷氛围，却从未承认是自己推人。||分寸拿捏得当，既给足了苏凌月台阶，又保全了自身清白。||苏凌月怒火难平，满心不甘，却抓不到半点治罪你的把柄，只能恨恨离去。||有细心宫人看在眼里，知晓你是受了无妄委屈；但也有人觉得你圆滑怯懦、不敢辩白。||孟瑶望着处事隐忍、进退有度的你，神色复杂，心绪难平。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
-    p3_mengyao_1:{text:"事态危急，你下意识侧首，直视身旁的孟瑶，眼神恳切温柔。||你寄望于年少情谊，期盼她能念着昔日情分，站出来为你仗义执言、洗刷冤屈。||孟瑶身子骤然发抖，唇瓣反复开合，眼底满是挣扎与惶恐。||她心里清楚真相，也知晓你无辜，可对面是盛宠滔天、外戚强势的丽婕妤。||一旦出言作证顶撞，以她低微的位份、单薄的家世，定然会引火烧身、万劫不复。||恐惧终究压过了情谊。||她缓缓垂眸，避开你的目光，双唇紧抿，自始至终一言不发。||没有证人，你的所有隐忍与清白，都显得苍白无力。||心底一阵寒凉彻骨，年少相伴的真挚情谊，在深宫权势面前，悄然裂开一道无法弥补的裂痕。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
-    p3_mengyao_2:{text:"你不愿当众逼迫为难孟瑶，未曾开口求助，只微微偏头，投去一抹隐晦的眼神。||目光温柔恳切，带着浅浅期盼，留足了余地，静待她自愿出手相助。||你始终念着昔日闺中情分，不愿在绝境之中，逼迫挚友两难。||孟瑶精准读懂了你眼底的求助，内心剧烈挣扎、天人交战。||一边是自幼相伴的至亲挚友，一边是足以碾压她的深宫权势。||权衡利弊之下，她终究还是选择了自保。||她微微偏头，佯装未曾看懂你的暗示，沉默伫立，一言不发。||期盼缓缓落空，心口微凉。||你们未曾撕破脸面、未曾当众反目，可那层亲密无间的情谊，已然生出一道无形隔阂，再也回不到从前。||【第一章完结，静待后续剧情更新】",choices:[{text:"存档暂停，等待后续更新",next:"pause_end"}]},
-    pause_end:{text:"本卷第一章剧情已全部完结。||你可在此存档，等待后续第二章剧情更新，继续开启深宫沉浮之路。",isEnd:true,endingId:"pause_demo"}
+start:{
+text:"【序言】||大启三年，暮春入夏。||外戚苏家势压六宫，苏凌月独占圣宠，风头无两。||太后掌后宫规制，步步制衡，不动声色拿捏各方势力。||帝王萧珩温润内敛，眼底藏锋，朝野风波、后宫暗流，皆尽收眼底。||十年前，宫中一桩废妃旧案被彻底封存。卷宗焚毁，宫人清汰，举国闭口不谈，成了深宫最大的禁忌。||你名沈清婉，翰林嫡女，家世清白，无朝堂强权依附。同批入宫的还有你自幼相伴的闺中密友孟瑶。她出身寒门，无依无靠，性子敏感怯懦。||朱墙高耸，锦绣堆砌的从来不是荣华，是无数身不由己的算计。一朝入宫，从前闺中岁月，尽数作废。||【第一章 海棠骤祸】||暮春御花园，海棠宴开席。落英纷飞，丝竹悦耳，一众嫔妃宫人簇拥席间，笑语不绝。你不耐喧闹应酬，与孟瑶退至僻静假山旁，稍作歇息。||无人预料，祸起须臾。假山阴影深处，骤然窜出一道黑影，动作极快，猛地朝外一推。||正缓步经过的苏凌月重心骤失，重重砸落在青石地面。手肘磕碰出血，满头珠钗滚落四散，妆容凌乱，姿态狼狈至极。||行凶之人得手后，片刻不停，转身钻入回廊暗影，转瞬消失无踪。擦肩刹那，你清晰瞥见对方衣摆纹样——一抹绝迹十年的暗青云纹。那是当年废妃专属纹样，早该尽数焚毁，永绝人世。||变故突生，满园死寂。事发之地偏僻幽静，近处唯有你与孟瑶二人。||苏凌月强忍剧痛，抬眸眸光凌厉，死死锁定你们。孟瑶瞬间面色惨白，浑身僵硬，牙关紧咬，自始至终不敢出声半句。||廊下帝王静立无言，帘后太后默然观望。无证人，无佐证，无退路。言语出口，再无转圜余地。",
+choices: [
+{ text: "1、当众据实辩驳，指明凶手逃窜方向，请宫人即刻搜证", next: "ch1_opt1" },
+{ text: "2、躬身示弱，主动揽下宴间失察疏漏", next: "ch1_opt2" },
+{ text: "3、退后避让，彻底撇清自身所有干系", next: "ch1_opt3" },
+{ text: "4、示意孟瑶，盼二人联手出面自证清白", next: "ch1_opt4" }
+]
+},
+ch1_opt1:{
+text:"你立身不动，神色沉静坦荡，当众条理清晰道出方才全貌。||你细数站位距离、假山遮挡视角，摆明自己绝无动手可能，同时直指黑影逃窜的回廊暗道，请管事宫人即刻追查踪迹。||句句属实，逻辑缜密，当场压下满堂流言。在场宫人皆看得分明，无人能将罪责安在你身上。||可你当众破局、锋芒毕露，太过从容利落。苏凌月当众折尽颜面，眼底怒意沉沉，缄默不语。高位之人将你的机敏果敢看在眼里，亦将这份过人锋芒默默记在心底。||风波暂时压住，但苏凌月绝不会善罢甘休。没过片刻，她身边大宫女上前，当众发难，暗指你与那黑影或许早有勾连，要求将你暂时软禁，待细细审问。||帝王并未立刻驳斥。此刻，局面又一次交到你的手上。",
+choices:[
+{text:"1、据理力争，拒绝软禁，要求继续追查逃犯",next:"ch1_opt1_1"},
+{text:"2、顺从接受软禁，以自证心底坦荡",next:"ch1_opt1_2"},
+{text:"3、请求太后出面主持公道",next:"ch1_opt1_3"},
+{text:"4、看向帝王，静等圣意，不主动发言",next:"ch1_opt1_4"}
+]
+},
+ch1_opt1_1:{
+text:"你不肯接受无端软禁，继续慷慨陈词，坚持应当追捕逃走的黑影，而不是拘禁无辜嫔妃。||你的道理无错，可当众顶撞贵妃身边宫人，显得咄咄逼人。帝王欣赏你的胆识，但也嫌你场面之上太过强硬。太后冷眼旁观，认为你不懂后宫周旋之道。||苏凌月借机哭诉你恃家世骄纵，藐视贵妃体面。一番拉扯过后，虽没有定你的罪，但宫中不少人对你生出嫌隙。||海棠宴结束，风波压下，你平安回到居所清芷阁，可各方对你的提防更深。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+ch1_opt1_2:{
+text:"你坦然接受临时软禁。你心中笃定，自己清白无亏，短时间拘禁不足以伤害根基。||你的配合反倒让苏凌月找不到继续发作的借口。帝王见你愿意妥协，对你多了几分好感。太后也认可你懂得顾全大局。||几日软禁解除，你平安归院。只是这段经历，也让你切身体会到，深宫之中清白二字，需要权势庇护。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+ch1_opt1_3:{
+text:"你直接请求太后前来处置。这相当于把这场矛盾直接递到太后手中。||太后本就想借机压制苏家气焰，顺势到场解围，保你不受软禁。但你遇事便投靠太后的举动，被帝王看在眼里，心中埋下一丝你急于站队的印象。苏家更是记恨你借太后压自己。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+ch1_opt1_4:{
+text:"你闭口不言，不吵不闹，将一切交由帝王裁决。||帝王权衡各方，不愿当众苛待你，也不愿过分得罪苏家，折中处置，撤销软禁提议，命人加紧追查黑影。||你没有博取任何人好感，也没有树立新的死敌，不进不退，平稳度过这场危机。只是，也没有任何人愿意主动向你伸出援手。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+
+ch1_opt2:{
+text:"你看清眼前绝境，不争不辩，不做多余辩驳。躬身垂首，姿态恭谨得体，只坦言自己身处近旁，疏于留意周遭动静，致使场面纷乱失礼。||你全程未曾承认伤人，只以退让换取场面安稳。||苏凌月挽回颜面，怒气消减大半，不再当场死咬追责。帝王与太后只当你性情温顺、安分守己。孟瑶满心愧疚，心绪复杂，对你多有亏欠。||可深宫最是欺软怕硬。你的退让被视作软弱可欺。宴会散场，回院路上，孟瑶悄悄追上你，神色挣扎。她低声问你，要不要往后一同依附苏凌月，借贵妃势力保全二人。",
+choices:[
+{text:"1、婉言拒绝，不愿投靠苏家",next:"ch1_opt2_1"},
+{text:"2、含糊应付，不答应也不拒绝",next:"ch1_opt2_2"},
+{text:"3、告诫孟瑶，切莫轻易攀附权贵",next:"ch1_opt2_3"},
+{text:"4、默许，让孟瑶代为传递示好之意",next:"ch1_opt2_4"}
+]
+},
+ch1_opt2_1:{
+text:"你直接婉拒孟瑶的提议。苏家气焰滔天，依附过去无异于饮鸩止渴。||孟瑶听罢，神色黯淡。她畏惧往后再遇祸事无人庇护，却也尊重你的想法。只是你们之间，想法已经出现裂痕。||海棠宴落幕，你回到清芷阁，苏家看你顺从却不肯归顺，已经暗中盘算如何拿捏你。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+ch1_opt2_2:{
+text:"你不愿把话说死，只是含糊其辞，既不答应投靠，也不直接回绝。||孟瑶读不透你的心思，心中惴惴不安。她摸不准你的立场，往后行事便多了几分保留。||表面相安无事，但你失去了孟瑶完全的信任。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+ch1_opt2_3:{
+text:"你认真告诫孟瑶，后宫攀附皆是浮梦，今日靠山明日便可能是祸根。||孟瑶心中并不认同，可不敢反驳你。嘴上应下，私下却依旧在暗中寻找自保门路。这件事，埋下往后她背叛你的伏笔。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+ch1_opt2_4:{
+text:"眼下危机四伏，你想借苏家换取喘息，默许孟瑶代为示好。||孟瑶大喜，立刻暗中向苏家传递善意。苏凌月收到信号，暂时放下对你的敌意。可帝王很快得知此事，认定你有心投靠外戚，对你印象大打折扣。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+
+ch1_opt3:{
+text:"你脚步轻移，果断退后数步，彻底拉开与事发地的关联。当众坦言自己站位偏远，视线受阻，全程未曾看清事发经过，此事与己无关。||一句话，将所有嫌疑尽数压在全程沉默的孟瑶身上。你脱身干净利落，看似全无破绽、安稳无虞。||可深宫之中，最忌绝境弃人、冷血自保。帝王眼底掠过冷意，看透你凉薄心性。太后厌弃你遇事甩锅、全无仁心。孟瑶身负百口莫辩的嫌疑，心底恨意彻骨。||满场无人为你开口，无人愿为你周旋。当夜，宫中一纸无声旨意落下，你因心性凉薄、不堪教化，被废黜位份，打入冷宫。",
+isEnd:true,
+endingId:"death_coldpalace",
+choices:[{text:"回到开篇",next:"pause_end"}]
+},
+
+ch1_opt4:{
+text:"你侧首望向身侧的孟瑶，目光轻递，暗藏期盼，寄望年少情谊。你盼她能破除怯懦，与你并肩自证，洗清这场无妄嫌疑。||可孟瑶浑身剧烈颤抖，指尖死死掐进掌心，头颅微垂，刻意避开你的目光。||寒门无靠的她，深知得罪盛宠滔天的苏家，便是断送自己唯一的入宫前程。极致的恐惧，终究压过了数年闺中情分。||她全程沉默不语，眼睁睁将你独自留在风口浪尖。你勉强脱身避过罪责，可昔日亲密无间的情谊，已然生出一道无法愈合的裂痕。||宴席草草结束，回到院落，孟瑶夜里遣侍女送来一封短笺，字里行间满是愧疚，又诉说自己身不由己。你面对这封书信。",
+choices:[
+{text:"1、回信宽慰，谅解她的处境",next:"ch1_opt4_1"},
+{text:"2、置之不理，不做任何回复",next:"ch1_opt4_2"},
+{text:"3、回信直言，点破她的怯懦与背叛",next:"ch1_opt4_3"},
+{text:"4、约她私下见面，当面把话说开",next:"ch1_opt4_4"}
+]
+},
+ch1_opt4_1:{
+text:"你提笔回信，言语温和，谅解她身不由己。||孟瑶收到信，心中石头落地，愧疚消减不少。你们关系有所回暖，但那次绝境的沉默，永远横亘二人之间。往后相处，再也回不到从前毫无芥蒂的模样。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+ch1_opt4_2:{
+text:"你把书信搁置一旁，不予回复。||孟瑶久久等不到回音，明白你心中已经隔阂深重。她又愧疚又难堪，自此更加刻意回避你。你们变成宫中点头之交。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+ch1_opt4_3:{
+text:"回信之中，你字字克制，却直白点出危难之时她的沉默。||孟瑶读完，羞愧转为怨怼。她自知理亏，却也记恨你不肯体谅。你们的关系彻底走向疏远。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+ch1_opt4_4:{
+text:"你传信约孟瑶深夜来院中私下相见。||夜半，孟瑶赴约。深夜嫔妃私相会面，本就犯宫中忌讳。不巧，巡逻内侍远远望见院落人影，此事被悄悄记下来。虽没有立刻发作，但你多了一条可以被人拿来做文章的把柄。你们当面交谈，依旧无法完全解开心中疙瘩。",
+choices:[{text:"进入第二章",next:"ch2_start"}]
+},
+
+ch2_start:{
+text:"【第二章 青釉疑踪】||海棠宴风波被宫中刻意压下，明面上风平浪静。可宫人流言细碎不绝，人人私下揣测，那日假山行凶之事，绝非偶然。苏凌月虽未再当众追责，却暗中命人紧盯当日所有在场之人。||你居于清芷阁，连日闭门静养，不参与任何宫中人情应酬。||这日午后，侍女清扫院角假山石缝，从中捡出一片碎裂的青釉瓷片。瓷片带着新鲜泥土痕迹，釉色暗沉，内侧刻着一抹极浅的暗青云纹，与你当日所见凶手心口纹样，分毫不差。||十年禁纹重现，旧案遗物现世，是祸，亦是唯一线索。||你指尖刚触到瓷片，院门之外脚步声骤起。三方人马同时到访，齐聚清芷阁门前。||太后掌事女官奉懿旨而来，要即刻取走残器回宫查验；苏凌月心腹内侍紧随而至，意欲抢夺物证，借机定你罪责；孟瑶立在廊下，目光死死锁住你手中瓷片，神色慌乱不安，眼底藏着难言隐秘。||一物牵动三方局势，取舍之间，皆是浮沉。",
+choices: [
+{ text: "1、将瓷片交由太后女官，交由太后处置查验", next: "ch2_opt1" },
+{ text: "2、将瓷片交给苏家内侍，顺势配合贵妃追查", next: "ch2_opt2" },
+{ text: "3、隐瞒瓷片一事，谎称从未见过此物", next: "ch2_opt3" },
+{ text: "4、留存瓷片，请求面圣，交由帝王圣裁", next: "ch2_opt4" }
+]
+},
+ch2_opt1:{
+text:"你坦然抬手，将青釉瓷片尽数交出，全程坦荡无隐瞒。太后女官见你恭谨配合，神色稍缓，持物回宫复命。||太后得证，知晓你未曾私藏禁物，暂时压下对你的猜忌。苏家见状无从发难，只能暂时收敛敌意，不敢肆意磋磨。||可你触碰十年旧案禁忌的举动，已然被太后默默记下。自此，你悄然落入深宫最核心的暗流之中。||女官离开前，悄悄私下问你，愿不愿意暗中为太后留意宫中异动。这是拉拢，也是试探。",
+choices:[
+{text:"1、应下，愿意为太后留意消息",next:"ch2_opt1_1"},
+{text:"2、委婉推辞，只愿安分守己",next:"ch2_opt1_2"},
+{text:"3、模糊回话，不接受也不拒绝",next:"ch2_opt1_3"},
+{text:"4、直接回绝，后宫之事不愿掺和",next:"ch2_opt1_4"}
+]
+},
+ch2_opt1_1:{
+text:"你应下女官的提议。太后对你好感上升，愿意给你庇护。但你间接归入太后麾下这件事，很快就传到帝王耳中，对你多了一层防备。苏家把你视作太后一党，敌意加深。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+ch2_opt1_2:{
+text:"你委婉推辞，表明自己只想安分度日，不愿卷入秘事。||太后欣赏你的坦荡，但也觉得你不够可用。不会加害你，但也不会再主动庇护你。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+ch2_opt1_3:{
+text:"你不把话说死，模棱两可应付过去。女官看出来你心思谨慎，不再继续逼迫。但太后无法判断你的立场，对你始终留有一层戒备。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+ch2_opt1_4:{
+text:"你直接回绝了拉拢。女官神色微冷，回宫如实回禀太后。太后认为你不识抬举，虽然不会立刻加害，但对你不再有半分扶持之意。往后遇事，太后不会出手帮你。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+
+ch2_opt2:{
+text:"你将瓷片递至苏家内侍手中，顺势配合苏凌月追查所谓真凶。||苏家顺利拿到物证，刻意扭曲线索，将祸事推给两名闲散低位宫人，草草了结此案，顺势平息宫中流言。||苏凌月对你放下大半敌意，认定你识时务、知进退、易于拿捏。可帝王冷眼看穿苏家刻意压下真相的手段，亦看清了你依附外戚的选择，心底悄然生出疏离。||内侍临走之时，传达苏凌月的话，邀你过几日前往贵妃宫中赴宴。",
+choices:[
+{text:"1、欣然应约赴宴",next:"ch2_opt2_1"},
+{text:"2、借口身体不适推辞宴会",next:"ch2_opt2_2"},
+{text:"3、应约，但请求带上侍女同往",next:"ch2_opt2_3"},
+{text:"4、拖延，说待身体好转再做答复",next:"ch2_opt2_4"}
+]
+},
+ch2_opt2_1:{
+text:"你欣然接受赴宴邀请。苏凌月宴席之上，言语敲打拉拢，试图把你彻底收为己用。你身处贵妃势力范围，一言一行都受人监视，稍有不慎便会落入圈套。但换来了短期平安。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+ch2_opt2_2:{
+text:"你以身体不适推辞宴会。苏凌月认为你假意示好却又刻意疏远，对你的信任大打折扣，重新生出提防。表面相安，暗中依旧会提防算计你。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+ch2_opt2_3:{
+text:"你答应赴宴，但坚持带上自己贴身侍女。苏凌月明白你心存戒备，心中不快，但也不好发作。宴席之上对你多了几分警惕。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+ch2_opt2_4:{
+text:"你拖延答复，既不赴约也不拒绝。苏家觉得你摇摆不定，不值得信任，不再打算拉拢，改为把你视作需要提防的对手。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+
+ch2_opt3:{
+text:"你迅速攥紧瓷片，神色镇定，面对三方来人，一口咬定院内从未出现任何青釉残器。说辞滴水不漏，当场蒙混过关，三方人马皆空手而归。你暂时避开了眼前的风波牵连。||可你不知，孟瑶早已暗中将你捡到瓷片的动静，悄悄传信给了苏家。苏家本就对你心存怨怼，借此抓住你私藏禁物、知情不报的把柄，连夜罗列罪状上奏。||无任何人替你辩驳，无任何人替你周旋。你私藏禁忌物证、隐匿宫事的罪名彻底坐实。",
+isEnd:true,
+endingId:"death_prison",
+choices:[{text:"回到开篇",next:"pause_end"}]
+},
+
+ch2_opt4:{
+text:"你婉拒两方来人的索要，妥善收好瓷片，直言此物牵扯甚广，非后宫可私断，需亲自面圣，交由帝王决断。||此举不偏不倚，不依附太后，不迁就苏家。帝王听闻此事，对你的谨慎公允、不结党派的行事颇为认可。||可太后与苏家同时看清你的立场，皆将你视作无法掌控的外人。后宫两大势力，自此同时对你心存戒备。||面圣之前，你身边心腹侍女劝你，要不要把瓷片的复仿碎片悄悄留存一份，留作后手。",
+choices:[
+{text:"1、听从建议，悄悄仿制留存碎片",next:"ch2_opt4_1"},
+{text:"2、拒绝，物证应当完整上交，不留副本",next:"ch2_opt4_2"},
+{text:"3、把仿制碎片交给心腹侍女秘密保管",next:"ch2_opt4_3"},
+{text:"4、直接销毁仿制品，不留任何后手",next:"ch2_opt4_4"}
+]
+},
+ch2_opt4_1:{
+text:"你命人悄悄仿制一份相似瓷片留存。多了一份后手，可一旦此事泄露，私造禁纹器物，便是重罪。你把这个秘密压在心底。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+ch2_opt4_2:{
+text:"你拒绝仿制。全部物证完整上交帝王，手中不留任何凭证。好处是清清白白，没有把柄落在别人手里；坏处是往后若物证被篡改，你将没有证据自证。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+ch2_opt4_3:{
+text:"你将仿制碎片交给心腹侍女秘密保管。风险分摊出去，但侍女若是被人收买，你的秘密就会暴露。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+ch2_opt4_4:{
+text:"你直接销毁尝试仿制出来的残片，不留一丝痕迹。一切赌在帝王公正之上。",
+choices:[{text:"进入第三章",next:"ch3_start"}]
+},
+
+ch3_start:{
+text:"【第三章 深宫问话】||青釉瓷片一事无声落幕，宫中再无人公开提及十年旧案。可细碎流言从未停歇，悄然蔓延六宫。||人人暗传，你手握旧案秘辛，知情不报，暗藏私心。流言无实证，却日日蚕食你在宫中的立足之地。||三日之后，两名内侍奉太后口谕，专程传你即刻入长乐宫问话。||今日长乐宫特意清场，殿内无一名宫人伺候，氛围死寂肃穆。太后端坐主位，神色平淡无波，不绕分毫弯子，句句直击要害。||“御花园残器一事，你知晓多少？”||“你手中，是否还藏有旧案隐秘？”||深宫问话，从无闲聊。一字答错，便是万丈深渊。",
+choices: [
+{ text: "1、据实禀明，将所有见闻全盘托出", next: "ch3_opt1" },
+{ text: "2、模糊说辞，淡化疑点，藏拙避祸", next: "ch3_opt2" },
+{ text: "3、装傻避事，全然推说不知情", next: "ch3_opt3" },
+{ text: "4、顺势依附，表态愿听命太后差遣", next: "ch3_opt4" }
+]
+},
+ch3_opt1:{
+text:"你不遮不掩，坦然将海棠宴黑影、禁纹现世、青釉瓷片之事，一一如实禀明。只陈述事实经过，不妄加揣测，不刻意隐瞒半分。||太后听完全部始末，神色未变，心底猜忌悄然消减大半。她知你未曾欺瞒，却也因你知晓太多深宫禁忌，对你愈发留意审视。||你躲过当下罪责，彻底卷入十年旧案的核心漩涡，再难置身事外。||问话尾声，太后话锋一转，试探询问你对苏凌月与苏家的看法。这又是一道看不见的考题。",
+choices:[
+{text:"1、客观评述，不褒不贬",next:"ch3_opt1_1"},
+{text:"2、顺着太后之意，诉说苏家跋扈之处",next:"ch3_opt1_2"},
+{text:"3、极力夸赞苏凌月，避免留下挑拨印象",next:"ch3_opt1_3"},
+{text:"4、推脱，后宫嫔妃是非，不敢妄议",next:"ch3_opt1_4"}
+]
+},
+ch3_opt1_1:{
+text:"你客观评述苏家权势现状，不添私人好恶。太后认可你的冷静，但依旧摸不透你的本心。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+ch3_opt1_2:{
+text:"你据实点出苏家行事跋扈的种种迹象。太后心中满意，可这些话，日后若泄露出去，便是你构陷外戚的口实。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+ch3_opt1_3:{
+text:"你刻意夸赞苏凌月。太后听得出你刻意逢迎，觉得你心口不一，对你生出戒备。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+ch3_opt1_4:{
+text:"你以嫔妃不该妄议权贵推脱过去。太后看不出你的立场，对你依旧保持距离。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+
+ch3_opt2:{
+text:"你言语克制内敛，措辞分寸得当。只说当日宴上纷乱嘈杂，视线混乱，未曾看清异样，瓷片不过是寻常废弃残器，未曾多想。||你无半句虚言，亦无半句真话，巧妙避开所有核心疑点。太后听出你刻意藏拙避事，却抓不到半点治罪把柄。||你安稳躲过当下诘问，却彻底失去了太后的信任。||离开长乐宫，路上孟瑶等候在宫道一旁，神色忐忑，似乎有话想对你说。",
+choices:[
+{text:"1、停下脚步，听她想说什么",next:"ch3_opt2_1"},
+{text:"2、视而不见，径直回自己院落",next:"ch3_opt2_2"},
+{text:"3、简单寒暄，不做停留直接离开",next:"ch3_opt2_3"},
+{text:"4、主动开口，质问她之前的所作所为",next:"ch3_opt2_4"}
+]
+},
+ch3_opt2_1:{
+text:"你停下脚步，听孟瑶诉说。她内心挣扎，半吐半露，暗示苏家正在暗中谋划对付你，却不敢把话说透。信息有限，但也算给了你一点预警。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+ch3_opt2_2:{
+text:"你视而不见，径直走过。孟瑶本想给你提醒，见你如此，便把话咽回腹中。你失去了一次提前得知危机的机会。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+ch3_opt2_3:{
+text:"你简单寒暄两句，不愿多做纠缠，匆匆离去。孟瑶犹豫再三，终究没有把警告讲出口。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+ch3_opt2_4:{
+text:"你当众宫道之上质问孟瑶。来往宫人不少，这番对话被旁人看在眼里。你们二人的矛盾，被不少人看在眼里，成为日后可以被利用的把柄。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+
+ch3_opt3:{
+text:"你躬身垂首，姿态卑微怯懦，一口咬定当日惶恐无措，心神不宁，全然不知何为禁纹、何为残器隐秘。||模样温顺无害，看似全无破绽，暂时蒙混过关。太后不再当场深究，心底却已然判定你怯懦无能、遇事畏缩、难堪大用。||深宫之中，无功无过，便是日渐落势。||走出长乐宫，你心中清楚，太后已经不会再看重你。往后想要自保，你必须另寻出路。",
+choices:[
+{text:"1、往后多寻找机会争取帝王留意",next:"ch3_opt3_1"},
+{text:"2、谨小慎微，闭门不出，尽量避开风波",next:"ch3_opt3_2"},
+{text:"3、想办法主动靠近苏凌月寻求庇护",next:"ch3_opt3_3"},
+{text:"4、暗中联络其他不得志嫔妃结成小援",next:"ch3_opt3_4"}
+]
+},
+ch3_opt3_1:{
+text:"你打定主意，往后伺机争取帝王的关注。帝王的青睐，是深宫中最有力的护身符，但也会引来其他妃嫔的嫉妒与算计。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+ch3_opt3_2:{
+text:"你打算闭门避祸，少露面少说话。可以减少犯错机会，但也意味着你没有任何势力可以依靠，祸事来临时全无反抗之力。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+ch3_opt3_3:{
+text:"你计划主动向苏凌月示好求庇护。这条路风险极高，苏家随时可以牺牲你。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+ch3_opt3_4:{
+text:"你打算联络其他失意嫔妃互相帮扶。后宫结党是大忌，一旦败露，便是滔天大祸。",
+choices:[{text:"进入第四章",next:"ch4_start"}]
+},
+
+ch3_opt4:{
+text:"你察觉局势凶险，当即躬身表态，诚心归顺，愿事事听从太后差遣，安分守己，绝不违逆。||你意图借太后之势自保，换取一时安稳。可你急切攀附的模样，尽数落在暗中伺探的眼线眼中。||彼时帝王正欲制衡太后权柄，你贸然站队、主动依附太后，恰好撞在帝王制衡的刀口上。||当夜，一道隐晦旨意下发，以嫔妃私结后宫党羽为由，将你永久禁足碎玉轩，无人问津，无人施救。",
+isEnd:true,
+endingId:"death_confine",
+choices:[{text:"回到开篇",next:"pause_end"}]
+},
+
+ch4_start:{
+text:"【第四章 人心隔影】||长乐宫问话过后，你暂时安稳脱身，却彻底看透深宫凉薄。往日细碎情谊，在权势风波面前，终究不堪一击。||孟瑶自海棠宴后，终日刻意避着你。昔日形影不离的闺中挚友，如今在宫中偶遇，也只会低头快步避让，不肯多言半句。||这日黄昏，暮色沉沉，晚风微凉。孟瑶独自踏入清芷阁院中，立在阶下，神色复杂难言。愧疚、怯懦、忌惮、怨怼，尽数藏在眼底。||僵持良久，她终于轻声开口，嗓音干涩沙哑。||“那日之事，我实属无奈。深宫身不由己，你我……终究不复从前了。”||多年情谊，是修补、是疏远、是了结，全在你一念之间。",
+choices: [
+{ text: "1、温和释怀，谅解她当日身不由己", next: "ch4_opt1" },
+{ text: "2、淡然疏离，从此二人各自安分自保", next: "ch4_opt2" },
+{ text: "3、直言质问，清算当日沉默避祸之过", next: "ch4_opt3" },
+{ text: "4、主动安抚，放下芥蒂维系旧情", next: "ch4_opt4" }
+]
+},
+ch4_opt1:{
+text:"你语气温和，神色淡然，全然不曾苛责。你知晓深宫步步惊心，人人皆要自保，她当日的怯懦与退缩，终究是身不由己。||孟瑶心头巨石落地，积攒多日的愧疚尽数消散，眼底重新生出几分暖意。二人之间的隔阂暂时破冰，关系回暖如初。||只是裂痕已然存在，再难回到全然坦诚信任的旧日模样，情谊看似完好，实则脆弱不堪。||谈话末尾，孟瑶小声告诉你，苏家最近正在暗中搜集你的把柄，让你千万小心。",
+choices:[
+{text:"1、相信她的警告，加紧自查院落",next:"ch4_opt1_1"},
+{text:"2、半信半疑，只做简单防备",next:"ch4_opt1_2"},
+{text:"3、疑心这是圈套，不做理会",next:"ch4_opt1_3"},
+{text:"4、反过来追问她，苏家具体掌握什么",next:"ch4_opt1_4"}
+]
+},
+ch4_opt1_1:{
+text:"你完全相信警告，立刻仔细检查院落，约束侍女言行。提前做好防备，规避不少潜在陷阱。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+ch4_opt1_2:{
+text:"你半信半疑，简单叮嘱下人多加留意，没有大动干戈。有一定防备，但不够充分。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+ch4_opt1_3:{
+text:"你怀疑这是孟瑶配合苏家设下的圈套，没有放在心上。你失去提前规避危机的机会。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+ch4_opt1_4:{
+text:"你追问孟瑶更多细节。可孟瑶知道的本就有限，又不敢深入打探苏家内情，拿不出更多情报，反而让她更加惶恐不安。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+
+ch4_opt2:{
+text:"你不怨不怒，亦不亲近，只淡淡开口，道尽深宫常态。朱墙之内，本就无人能事事随心，各自自保、各自安身，本就是常态。||你态度平和疏离，不撕破脸面，也不刻意维系旧情。孟瑶读懂你的淡漠，心底酸涩愧疚，却也坦然接受了这份距离。||自此，你们维持表面和气，私下互不牵绊、互不纠葛，安稳相安。||临走前，孟瑶犹豫再三，欲言又止，最后什么也没说，转身离去。",
+choices:[
+{text:"1、叫住她，问她是否有话想说",next:"ch4_opt2_1"},
+{text:"2、任由她离去，不再多问",next:"ch4_opt2_2"},
+{text:"3、叮嘱自己侍女，往后多留意孟瑶动向",next:"ch4_opt2_3"},
+{text:"4、告诫所有下人，少与孟瑶那边人来往",next:"ch4_opt2_4"}
+]
+},
+ch4_opt2_1:{
+text:"你叫住孟瑶，她依旧不敢吐露苏家的谋划，只是摇头告辞。依旧得不到关键情报。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+ch4_opt2_2:{
+text:"你没有挽留，任由她离开。你不知道一场针对你的构陷正在悄然筹备。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+ch4_opt2_3:{
+text:"你吩咐自己人暗中留意孟瑶那边的动静，多一层观察，多一分自保。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+ch4_opt2_4:{
+text:"你严令下人断绝和孟瑶那边往来。彻底划清界限，但也彻底断绝了从孟瑶处获取消息的可能。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+
+ch4_opt3:{
+text:"你不肯敷衍释怀，轻声开口，字字真切，点破她当日绝境弃你、沉默自保的事实。你不曾恶语相向，却句句戳中她最难堪的软肋。||孟瑶脸色节节泛白，羞愧难当。心底的愧疚，慢慢被难堪与怨怼取代。她自知理亏，却也彻底记恨上你。||二人表面体面维系，私下已然结下难解私怨。",
+choices:[
+{text:"1、事后稍稍缓和，不把关系做绝",next:"ch4_opt3_1"},
+{text:"2、自此处处防备孟瑶，不再信任半分",next:"ch4_opt3_2"},
+{text:"3、暗中敲打孟瑶身边侍女，施加警告",next:"ch4_opt3_3"},
+{text:"4、对外人诉说孟瑶当日的怯懦作为",next:"ch4_opt3_4"}
+]
+},
+ch4_opt3_1:{
+text:"你事后刻意稍微缓和态度，没有赶尽杀绝。虽有私怨，但不至于逼得孟瑶不顾一切与你死斗。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+ch4_opt3_2:{
+text:"你对孟瑶处处提防，任何消息都不向她泄露。不会被她背后捅刀，但也失去了一丝缓和的余地。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+ch4_opt3_3:{
+text:"你敲打孟瑶侍女。消息传到孟瑶耳中，加剧她对你的敌意，让她更愿意配合苏家构陷你。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+ch4_opt3_4:{
+text:"你向外人讲起孟瑶危难之时的沉默。流言传开，孟瑶颜面尽失，对你恨之入骨。",
+choices:[{text:"进入第五章",next:"ch5_start"}]
+},
+
+ch4_opt4:{
+text:"你选择放下所有芥蒂，主动柔声安抚，宽慰她不必愧疚，全然理解她的难处。你一心维系旧日情谊，全然不曾设防。||孟瑶见状，眼底闪过一丝复杂冷光。她深知你心软重情，便假意动容，重拾温情，转身便将你过往的隐秘、心软的弱点，尽数告知苏家，以此攀附讨好。||苏家掌握你的所有软肋与破绽，步步设局，层层构陷。你毫无防备，步步踏入死局，最终被安上祸乱宫闱的罪名，含泪赐死。",
+isEnd:true,
+endingId:"death_lovewrong",
+choices:[{text:"回到开篇",next:"pause_end"}]
+},
+
+ch5_start:{
+text:"【第五章 暗流构陷】||人情风波落幕，宫中看似再度归于平静。可苏家始终记恨海棠宴折颜之辱，从未放下对你的打压算计。平静之下，早已暗流汹涌，杀机暗藏。||夜深人静，宫灯昏沉，月色凄冷。清芷阁院门被骤然推开，管事嬷嬷带领一众宫人深夜闯入，打破深夜安宁。||宫人手中捧着一束干枯发黑的海棠花，院角花坛泥土松动，痕迹崭新。||管事嬷嬷面色冷峻，当众开口，直言你私藏厌胜之物，暗藏祸心，以海棠咒术诅咒贵妃苏凌月，意图祸乱圣宠、加害妃嫔。||物证俱全，场景确凿，深夜无人可为你佐证，无人可为你解围。刻意栽赃的痕迹再明显，此刻也无从辩驳。||生死荣辱，只在当下一念抉择。",
+choices: [
+{ text: "1、冷静拆解破绽，逐条辩驳栽赃罪责", next: "ch5_opt1" },
+{ text: "2、请求停证留查，恳请帝王亲自彻断", next: "ch5_opt2" },
+{ text: "3、求助太后，借后宫制衡之力解围", next: "ch5_opt3" },
+{ text: "4、低头认罚，示弱求饶暂避死局", next: "ch5_opt4" }
+]
+},
+ch5_opt1:{
+text:"你临危不乱，神色镇定，当众逐条拆解所有破绽。你点明居所日夜有宫人值守，绝无私自掩埋厌胜物的时机；花坛松土痕迹规整刻意，分明是外人深夜潜入栽赃构陷。||逻辑严密，句句属实，当场打乱苏家精心布置的死局。管事嬷嬷无从辩驳，不敢深夜草率定罪，只能暂时搁置此案。||你成功拖延死局，保住自身，却彻底激怒了苏家，更大的风波已然在前方等候。",
+choices:[{text:"本卷游玩完毕，存档暂停",next:"pause_end"}]
+},
+ch5_opt2:{
+text:"你不与宫人争辩纠缠，只求暂留物证、暂停审讯，执意要将此事上报帝王，交由圣裁决断。||深夜请圣不合宫规，却也彻底避开了后宫私刑构陷的圈套。帝王听闻后宫深夜构陷、派系乱斗，即刻介入核查。||你借帝王之力，暂时挣脱死局，却也彻底卷入朝堂后宫的制衡漩涡中心。",
+choices:[{text:"本卷游玩完毕，存档暂停",next:"pause_end"}]
+},
+ch5_opt3:{
+text:"你即刻传信长乐宫，恳请太后出面制衡解围。||太后本就意在制衡苏家势力，顺势出手压下这场深夜构陷，保你平安脱身。||你逃过此劫，彻底绑定太后派系。太后将你视作制衡外戚的可用棋子，苏家对你的敌意与忌惮，愈发深重。",
+choices:[{text:"本卷游玩完毕，存档暂停",next:"pause_end"}]
+},
+ch5_opt4:{
+text:"你深夜孤立无援，心生怯意，不敢半分对峙辩驳。只能低头示弱，诚恳认罚求饶，只求暂且保命。||你本以为退让可换生机，却不知深宫之中，示弱便是授人以柄。||苏家本就蓄意除你，见你怯懦认罪、毫无底气，当即敲定罪责，连夜拟罪上奏。无人替你求情，无人为你翻案。深夜深宫，弱势者从无侥幸可言。",
+isEnd:true,
+endingId:"death_hang",
+choices:[{text:"回到开篇",next:"pause_end"}]
+},
+
+pause_end:{
+text:"本卷剧情已全部完结。||你可以在此存档，等待后续剧情更新，继续开启深宫沉浮之路。",
+isEnd:true,
+endingId:"pause_demo"
+}
 };
-const endingMeta = {pause_demo:"第一卷·海棠冤案 游玩完毕"};
+
+const endingMeta = {
+pause_demo:"第一卷游玩完毕",
+death_coldpalace:"结局：冷宫锁春，寂寂余生",
+death_prison:"结局：罪证缠身，废黜入宫狱",
+death_confine:"结局：幽禁余生，孤寂终老",
+death_lovewrong:"结局：情深误己，玉碎香消",
+death_hang:"结局：污名缠身，赐白绫而终"
+};
 
 let currentNodeId = "start";
 let historyStack = [];
@@ -101,153 +479,195 @@ const choiceDom = document.getElementById("choiceBox");
 const dialogBox = document.getElementById("dialogBox");
 const btnSpeed = document.getElementById("btnSpeed");
 
-let state = "idle"; // idle / typing / waitClick
+let state = "idle";
 let currentPageText = "";
 let pageList = [];
 let pagePtr = 0;
 
 function updateSpeedBtn(){
-    btnSpeed.innerText = "文字速度:"+speedTextArr[speedCfg.idx];
+btnSpeed.innerText = "文字速度:"+speedTextArr[speedCfg.idx];
 }
 updateSpeedBtn();
 
 dialogBox.onclick = function(){
-    if(state === "typing"){
-        clearTimeout(typingTimer);
-        typingTimer = null;
-        textDom.innerText = currentPageText;
-        dialogBox.scrollTop = dialogBox.scrollHeight;
-        state = "waitClick";
-        return;
-    }
-    if(state === "waitClick"){
-        nextPage();
-    }
+if(state === "typing"){
+clearTimeout(typingTimer);
+typingTimer = null;
+textDom.innerText = currentPageText;
+dialogBox.scrollTop = dialogBox.scrollHeight;
+state = "waitClick";
+return;
+}
+if(state === "waitClick"){
+nextPage();
+}
+}
+
+window.addEventListener("keydown",(e)=>{
+if(document.querySelector(".modal.active")) return;
+if(state === "idle") return;
+if(e.code === "ArrowRight"){
+e.preventDefault();
+if(state === "typing"){
+clearTimeout(typingTimer);
+typingTimer = null;
+textDom.innerText = currentPageText;
+dialogBox.scrollTop = dialogBox.scrollHeight;
+state = "waitClick";
+}else if(state === "waitClick"){
+nextPage();
+}
+}else if(e.code === "ArrowLeft"){
+e.preventDefault();
+if(state === "typing"){
+clearTimeout(typingTimer);
+typingTimer = null;
+}
+if(pagePtr > 0){
+pagePtr--;
+showPageDirect(pageList[pagePtr]);
+}
+}
+})
+
+function showPageDirect(str){
+state = "waitClick";
+currentPageText = str;
+textDom.innerText = str;
+dialogBox.scrollTop = 0;
 }
 
 function nextPage(){
-    pagePtr++;
-    if(pagePtr >= pageList.length){
-        state = "idle";
-        renderChoices(storyData[currentNodeId]);
-        return;
-    }
-    playPage(pageList[pagePtr]);
+pagePtr++;
+if(pagePtr >= pageList.length){
+state = "idle";
+renderChoices(storyData[currentNodeId]);
+return;
+}
+playPage(pageList[pagePtr]);
 }
 
 function playPage(str){
-    state = "typing";
-    currentPageText = str;
-    textDom.innerText = "";
-    let i=0;
-    function tick(){
-        if(i >= str.length){
-            state = "waitClick";
-            dialogBox.scrollTop = dialogBox.scrollHeight;
-            return;
-        }
-        textDom.innerText += str[i++];
-        dialogBox.scrollTop = dialogBox.scrollHeight;
-        typingTimer = setTimeout(tick, speedCfg.arr[speedCfg.idx]);
-    }
-    tick();
+state = "typing";
+currentPageText = str;
+textDom.innerText = "";
+let i=0;
+function tick(){
+if(i >= str.length){
+state = "waitClick";
+dialogBox.scrollTop = dialogBox.scrollHeight;
+return;
+}
+textDom.innerText += str[i++];
+dialogBox.scrollTop = dialogBox.scrollHeight;
+typingTimer = setTimeout(tick, speedCfg.arr[speedCfg.idx]);
+}
+tick();
 }
 
 function renderChoices(node){
-    choiceDom.innerHTML = "";
-    if(node.isEnd){
-        if(!unlockEndings.includes(node.endingId)){
-            unlockEndings.push(node.endingId);
-            localStorage.setItem("endings",JSON.stringify(unlockEndings));
-        }
-        const btn = document.createElement("button");
-        btn.className="choiceBtn";
-        btn.innerText="回到开篇";
-        btn.onclick=(e)=>{e.stopPropagation();historyStack=[];goNode("start");};
-        choiceDom.appendChild(btn);
-        return;
-    }
-    for(let ch of node.choices){
-        const btn = document.createElement("button");
-        btn.className="choiceBtn";
-        btn.innerText = ch.text;
-        btn.onclick=(e)=>{e.stopPropagation();goNode(ch.next);};
-        choiceDom.appendChild(btn);
-    }
+choiceDom.innerHTML = "";
+if(node.isEnd){
+if(!unlockEndings.includes(node.endingId)){
+unlockEndings.push(node.endingId);
+localStorage.setItem("endings",JSON.stringify(unlockEndings));
+}
+const btn = document.createElement("button");
+btn.className="choiceBtn";
+btn.innerText="回到开篇";
+btn.onclick=(e)=>{e.stopPropagation();historyStack=[];goNode("start");};
+choiceDom.appendChild(btn);
+return;
+}
+for(let ch of node.choices){
+const btn = document.createElement("button");
+btn.className="choiceBtn";
+btn.innerText = ch.text;
+btn.onclick=(e)=>{e.stopPropagation();goNode(ch.next);};
+choiceDom.appendChild(btn);
+}
 }
 
 function goNode(nodeId){
-    clearTimeout(typingTimer);
-    state = "idle";
-    const node = storyData[nodeId];
-    if(node.choices) historyStack.push(nodeId);
-    currentNodeId = nodeId;
-    choiceDom.innerHTML = "";
-    pageList = node.text.split("||").map(s=>s.trim()).filter(s=>s);
-    pagePtr = 0;
-    if(pageList.length>0){
-        playPage(pageList[0]);
-    }else{
-        renderChoices(node);
-    }
+clearTimeout(typingTimer);
+state = "idle";
+const node = storyData[nodeId];
+if(node.choices) historyStack.push(nodeId);
+currentNodeId = nodeId;
+choiceDom.innerHTML = "";
+pageList = node.text.split("||").map(s=>s.trim()).filter(s=>s);
+pagePtr = 0;
+if(pageList.length>0){
+playPage(pageList[0]);
+}else{
+renderChoices(node);
+}
 }
 
 document.getElementById("btnBack").onclick=(e)=>{
-    e.stopPropagation();
-    if(historyStack.length<=1){alert("无法回退");return;}
-    historyStack.pop();
-    goNode(historyStack[historyStack.length-1]);
+e.stopPropagation();
+if(historyStack.length<=1){alert("无法回退");return;}
+historyStack.pop();
+goNode(historyStack[historyStack.length-1]);
 }
+
 btnSpeed.onclick=(e)=>{e.stopPropagation();speedCfg.idx=(speedCfg.idx+1)%speedCfg.arr.length;updateSpeedBtn();}
+
 document.getElementById("btnTheme").onclick=(e)=>{e.stopPropagation();document.body.classList.toggle("light-theme");}
+
 document.querySelectorAll(".close-btn").forEach(b=>{b.onclick=(e)=>{
-    e.stopPropagation();
-    document.getElementById("saveModal").classList.remove("active");
-    document.getElementById("loadModal").classList.remove("active");
-    document.getElementById("endingModal").classList.remove("active");
+e.stopPropagation();
+document.getElementById("saveModal").classList.remove("active");
+document.getElementById("loadModal").classList.remove("active");
+document.getElementById("endingModal").classList.remove("active");
 }});
 
 document.getElementById("btnSave").onclick=(e)=>{
-    e.stopPropagation();
-    document.getElementById("saveModal").classList.add("active");
-    const list = document.getElementById("saveList");list.innerHTML="";
-    for(let i=1;i<=3;i++){
-        const key = "save_"+i;
-        const div = document.createElement("div");
-        div.className="save-item";
-        div.innerText = localStorage.getItem(key)?`存档${i}：已保存`:`存档${i}：空`;
-        div.onclick=(ev)=>{ev.stopPropagation();localStorage.setItem(key,JSON.stringify({node:currentNodeId,history:historyStack}));alert(`已存入存档${i}`);document.getElementById("saveModal").classList.remove("active");};
-        list.appendChild(div);
-    }
-};
-document.getElementById("btnLoad").onclick=(e)=>{
-    e.stopPropagation();
-    document.getElementById("loadModal").classList.add("active");
-    const list = document.getElementById("loadList");list.innerHTML="";
-    for(let i=1;i<=3;i++){
-        const key="save_"+i;
-        const raw = localStorage.getItem(key);
-        const div = document.createElement("div");
-        div.className="save-item";
-        if(raw){
-            div.innerText=`存档${i}`;
-            div.onclick=(ev)=>{ev.stopPropagation();const d=JSON.parse(raw);historyStack=d.history??[];goNode(d.node);document.getElementById("loadModal").classList.remove("active");}
-        }else div.innerText=`存档${i}：空存档`;
-        list.appendChild(div);
-    }
-};
-document.getElementById("btnEnding").onclick=(e)=>{
-    e.stopPropagation();
-    document.getElementById("endingModal").classList.add("active");
-    const list = document.getElementById("endingList");list.innerHTML="";
-    for(const [eid,name] of Object.entries(endingMeta)){
-        const div = document.createElement("div");div.style.padding="6px 0";
-        div.innerText = unlockEndings.includes(eid)?"✅ "+name:"❓ ???（未解锁）";
-        list.appendChild(div);
-    }
+e.stopPropagation();
+document.getElementById("saveModal").classList.add("active");
+const list = document.getElementById("saveList");list.innerHTML="";
+for(let i=1;i<=3;i++){
+const key = "save_"+i;
+const div = document.createElement("div");
+div.className="save-item";
+div.innerText = localStorage.getItem(key)?`存档${i}：已保存`:`存档${i}：空`;
+div.onclick=(ev)=>{ev.stopPropagation();localStorage.setItem(key,JSON.stringify({node:currentNodeId,history:historyStack}));alert(`已存入存档${i}`);document.getElementById("saveModal").classList.remove("active");};
+list.appendChild(div);
+}
 };
 
+document.getElementById("btnLoad").onclick=(e)=>{
+e.stopPropagation();
+document.getElementById("loadModal").classList.add("active");
+const list = document.getElementById("loadList");list.innerHTML="";
+for(let i=1;i<=3;i++){
+const key="save_"+i;
+const raw = localStorage.getItem(key);
+const div = document.createElement("div");
+div.className="save-item";
+if(raw){
+div.innerText=`存档${i}`;
+div.onclick=(ev)=>{ev.stopPropagation();const d=JSON.parse(raw);historyStack=d.history??[];goNode(d.node);document.getElementById("loadModal").classList.remove("active");}
+}else div.innerText=`存档${i}：空存档`;
+list.appendChild(div);
+}
+};
+
+document.getElementById("btnEnding").onclick=(e)=>{
+e.stopPropagation();
+document.getElementById("endingModal").classList.add("active");
+const list = document.getElementById("endingList");list.innerHTML="";
+for(const [eid,name] of Object.entries(endingMeta)){
+const div = document.createElement("div");div.style.padding="6px 0";
+div.innerText = unlockEndings.includes(eid)?"✅ "+name:"🔒 ???";
+list.appendChild(div);
+}
+};
+
+// 游戏启动
+window.onload = function(){
 goNode("start");
+}
 </script>
 </body>
 </html>
